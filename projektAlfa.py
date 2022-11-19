@@ -28,7 +28,7 @@ def kasutaja_laud(lauad):
     for rida in puhtam_laud:
         asukohad = rida.split(' ') #asukohtadeks on sidekriipsud "-"
         indeks_laud.append(asukohad) 
-    laevade_asetus()
+    laevad_lauale()
 
     #paneb laua kokku ilma päise ja äärteta
     tagasi1=[]
@@ -77,57 +77,76 @@ def prindi_laud():
     lauad = [mangija_laud, arvuti_laud]
     kasutaja_laud(lauad)
 
+def laevad_lauale():
+
+    laevad1k = []
+    laevad2k = []
+    laevad3k = []
+    laevad4k = []
+    laevad(laevad4k, 1, 4)
+    laevad(laevad3k, 2, 3)
+    laevad(laevad2k, 3, 2)
+    laevad(laevad1k, 4, 1)
+    for x in laevad1k:
+        konverter(x)
+    for x in laevad2k:
+        konverter(x)
+    for x in laevad3k:
+        konverter(x)
+    for x in laevad4k:
+        konverter(x)
 
 
-def laevade_asetus():
-    laevad4 = []
-    laevad3 = []
-    laevad2 = []
-    laevad1 = []
+
+
     
-    def asetuse_kysimine(x, y, kohaline, sõne_pikkus): #x ja y on range vahemik
-        for samm in range(x, y):
-            while True:
-                
-                koordinaadid = input("Sisesta " + str(samm) + ". " + kohaline + " laeva koordinaadid: ").upper()
-                if len(koordinaadid) != sõne_pikkus:
-                    print("Ei tuvasta sisestust, proovige uuesti.")
-                else:
-                    if konverter(koordinaadid) == "koht on juba võetud":
-                        print("Koht on juba võetud!")
-                        asetuse_kysimine(x+samm-1, y-samm+1, kohaline, sõne_pikkus) #alustab uuesti sealt kus sassi läks
-                
-                    else:
-                        print("Laev edukalt sisestatud.")
-                        break
 
-    while True:
-        #neljane laev
-        koordinaadid4 = input('Sisesta neljakohalise laeva koordinaadid (nt A2 B2 C2 D2): ').upper()
-        if len(koordinaadid4)  != 11:
-            print('Ei tuvasta sisestust, proovige uuesti.')
-        else:
-            if konverter(koordinaadid4) == "konverditud":
-                print('Neljakohaline laev edukalt sisestatud.')
+def laevad(laev, laevade_arv, laeva_pikkus):
+    t = True
+    for x in range(0, laevade_arv):
+        kordinaadid = input('Sisesta ' + str(x+1) +'. ' + str(laeva_pikkus) + '-kohalise laeva kordinaadid: ').upper()
+        pikkus = kordinaadid.split()
+        for y in pikkus:
+            if len(y) != 2:
+                t = False
                 break
+        while True:
+            if len(pikkus) != laeva_pikkus:
+                print('Sisestus ebatäpne, proovi uuesti.')  
+                kordinaadid = input('Sisesta ' + str(x+1) +'. ' + str(laeva_pikkus) + '-kohalise laeva kordinaadid: ').upper()
+                pikkus = kordinaadid.split()
+                t = True
+                for y in pikkus:
+                    if len(y) != 2:
+                        t = False
+                        break
+            elif t == False:
+                print('Sisestus ebatäpne, proovi uuesti.')  
+                kordinaadid = input('Sisesta ' + str(x+1) +'. ' + str(laeva_pikkus) + '-kohalise laeva kordinaadid: ').upper()
+                pikkus = kordinaadid.split()
+                t = True
+                for y in pikkus:
+                    if len(y) != 2:
+                        t = False
+                        break
+            elif konverter(kordinaadid) == 'koht on juba võetud':
+                print('Koht on juba võetud')
+                kordinaadid = input('Sisesta ' + str(x+1) +'. ' + str(laeva_pikkus) + '-kohalise laeva kordinaadid: ').upper()
+                pikkus = kordinaadid.split()
+                t = True
+                for y in pikkus:
+                    if len(y) != 2:
+                        t = False
+                        break
             else:
-                continue
-            
-    #kolmesed laevad
-    asetuse_kysimine(1, 3, "kolmekohalise", 8)
-    
-    #kahesed laevad
-    asetuse_kysimine(1, 4, "kahekohalise", 5)
-    
-    #yhesed laevad
-    asetuse_kysimine(1, 5, "ühekohalise", 2)
-            
+                laev.append(kordinaadid)
+                break  
+  
 
 #paneb nt A2 A3 jms järgi laeva lauale
 def konverter(muudetav): #muudetav on nt A2 A3
     lst = muudetav.split(' ')
-    for koordinaat in lst:
-        
+    for koordinaat in lst:      
         x_telg = int(ord(koordinaat[0])) - 65 #teeb tähe numbriks
         y_telg = int(koordinaat[1])
         if indeks_laud[x_telg][y_telg] != 'L':
