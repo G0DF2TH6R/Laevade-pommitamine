@@ -110,6 +110,9 @@ def laevad(laev, laevade_arv, laeva_pikkus):
             if len(y) != 2:
                 t = False
                 break
+            elif y[0].isalpha() == False or y[1].isnumeric () == False:
+                t = False
+                break
         while True:
             if len(pikkus) != laeva_pikkus:
                 print('Sisestus ebatäpne, proovi uuesti.')  
