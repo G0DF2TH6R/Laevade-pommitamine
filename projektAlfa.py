@@ -1,62 +1,26 @@
 from random import *
 
-laud = ''
-global tagasi3
-tagasi3 = []
-vastaslaud = [['----------'],['----------'],['----------'],['----------'],['----------'],
-['----------'],['----------'],['----------'],['----------'],['----------']]
-
-def kasutaja_laud(lauad):
-
-    i = 0
-    mat_laud = lauad[0].split('\n')
-    mat_laud.pop(0) #võtab numbritega päiserea ära
-    mat_laud.pop(0) #võtab kriipsudega päiserea ära
-    puhas_laud = []
-    
-    #võtab laualt ära tähed A,B jne
-    for rida in mat_laud:
-        uus_rida = rida.replace(chr(65 + i), '')
-        puhas_laud.append(uus_rida)
-        i += 1
-    puhtam_laud = []
-    
-    #võtab laualt ära ääred ehk "|"
-    for rida in puhas_laud:
-        uuem_rida = rida.replace('|', '').strip()
-        puhtam_laud.append(uuem_rida)
-    global indeks_laud
-    indeks_laud = []
-    
-    #laud, kus on ainult sidekriipsud "-"
-    for rida in puhtam_laud:
-        asukohad = rida.split(' ') #asukohtadeks on sidekriipsud "-"
-        indeks_laud.append(asukohad) 
-    laevad_lauale()
-
-    #paneb laua kokku ilma päise ja äärteta
-    tagasi1=[]
-    for rida in indeks_laud:
-        tagasi1.append(''.join(rida))
-
-    tagasi2 = []
-    for rida in tagasi1:
-        tagasi2.append(''.join(rida))
-    for rida in tagasi2:
-        tagasi3.append(' '.join(rida))
-    tagasi3.pop()
-    muudetud_laud()
+vastaslaud = [['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-'],
+['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-'],
+['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-'],
+['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-'],
+['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-']]
+kasutaja_laud = [['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-'],
+['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-'],
+['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-'],
+['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-'],
+['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-']]
 
 
 
 
 
 
-
-def algne_laud(laud):
+def algne_laud():
     global päis
     päis = '    0 1 2 3 4 5 6 7 8 9\n  +---------------------+\n'
     number = 0
+    laud = ''
     
     for x in range(10):
         laud += chr(65 + number) + ' |' + 10 * ' -' + ' |' +'\n'
@@ -75,15 +39,9 @@ def prindi_laud():
     "3. Sümbolid: - - tühi koht, X - pihta saanud laevaosa, O - Mööda lastud koht, L - Sinu laeva asukohad\n"+
     "4. Kaotab see kellel on kõik laevad uppunud.\n")
     print('SINU LAUD')
-    mangija_laud = algne_laud(laud)
-    print(mangija_laud)
+    print(algne_laud())
     print('\n ARVUTI LAUD')
-    global arvuti_laud
-    arvuti_laud = algne_laud(laud)
-    print(arvuti_laud)
-    global lauad
-    lauad = [mangija_laud, arvuti_laud]
-    kasutaja_laud(lauad)
+    print(algne_laud())
 
 def laevad_lauale():
 
@@ -96,13 +54,13 @@ def laevad_lauale():
     laevad(laevad2k, 3, 2)
     laevad(laevad1k, 4, 1)
     for x in laevad1k:
-        konverter(x)
+        konverter(x, kasutaja_laud)
     for x in laevad2k:
-        konverter(x)
+        konverter(x, kasutaja_laud)
     for x in laevad3k:
-        konverter(x)
+        konverter(x, kasutaja_laud)
     for x in laevad4k:
-        konverter(x)
+        konverter(x, kasutaja_laud)
 
 
 
@@ -140,7 +98,7 @@ def laevad(laev, laevade_arv, laeva_pikkus):
                     if len(y) != 2:
                         t = False
                         break
-            elif konverter(kordinaadid) == 'koht on juba võetud':
+            elif konverter(kordinaadid, kasutaja_laud) == 'koht on juba võetud':
                 print('Koht on juba võetud')
                 kordinaadid = input('Sisesta ' + str(x+1) +'. ' + str(laeva_pikkus) + '-kohalise laeva kordinaadid: ').upper()
                 pikkus = kordinaadid.split()
@@ -152,55 +110,81 @@ def laevad(laev, laevade_arv, laeva_pikkus):
             else:
                 laev.append(kordinaadid)
                 break  
+        print(muudetud_laud(kasutaja_laud))
   
 
 #paneb nt A2 A3 jms järgi laeva lauale
-def konverter(muudetav): #muudetav on nt A2 A3
+def konverter(muudetav, muudetav_laud): #muudetav on nt A2 A3
     lst = muudetav.split(' ')
     for koordinaat in lst:      
         x_telg = int(ord(koordinaat[0])) - 65 #teeb tähe numbriks
         y_telg = int(koordinaat[1])
-        if indeks_laud[x_telg][y_telg] != 'L':
-            indeks_laud[x_telg][y_telg] = "L"
-        else:
+        if muudetav_laud[x_telg][y_telg] == 'L':
             return "koht on juba võetud"
+    for koordinaat in lst:      
+        x_telg = int(ord(koordinaat[0])) - 65
+        y_telg = int(koordinaat[1])
+        muudetav_laud[x_telg][y_telg] = 'L'
         
     return "konverditud"
         
     
-def muudetud_laud():
+def muudetud_laud(laud):
     g = 0
     print(päis.strip('\n'))
-    for rida in tagasi3:
-        print(chr(65 + g) + '| ' + rida + ' |')
+    for rida in laud:
+        print(chr(65 + g) + ' | ' + ' '.join(rida) + ' |')
         g += 1
-    uus_alus = ' ' + alus.strip()
+    uus_alus = '  ' + alus.strip()
     print(uus_alus)
     
-def ai_laud(laud2):
+def ai_laud():
     x = 10
     while x > 0:
         if x > 9:
-            y = 4
+            kordinaadid = ''
             laeva_asukoht_xtelg = str(randint(0,6))
-            laeva_asukoht_ytelg = choice('ABCDEF')
-            while y > 0:
-                y_telg = int(ord(laeva_asukoht_ytelg)) - 65 + y
-                x_telg = laeva_asukoht_xtelg
-                vastaslaud[y_telg][x_telg] = 'L'
-                y -= 1
+            laeva_asukoht_ytelg = choice('ABCDEFGHIJ')
+            for y in range(4):
+                kordinaadid += laeva_asukoht_ytelg + str(int(laeva_asukoht_xtelg + y)) + ' '
+            konverter(kordinaadid, vastaslaud)
         elif x > 7:
-            y= 3
+            kordinaadid = ''
             laeva_asukoht_xtelg = str(randint(0,7))
-            laeva_asukoht_ytelg = choice('ABCDEFGH')
-            while y > 0:
-                y_telg = int(ord(laeva_asukoht_ytelg)) + y
-                x_telg = laeva_asukoht_xtelg + y
-                if vastaslaud[y_telg][x_telg] == 'L':
-                    y += 
-                y -= 1
+            laeva_asukoht_ytelg = choice('ABCDEFGHIJ')
+            for y in range(3):
+                kordinaadid += laeva_asukoht_ytelg + str(int(laeva_asukoht_xtelg + y)) + ' '
+            while True:
+                if konverter(kordinaadid, vastaslaud) == 'konverditud':
+                    break
+                else:
+                    konverter(kordinaadid, vastaslaud)
+        elif x > 4:
+            kordinaadid = ''
+            laeva_asukoht_xtelg = str(randint(0,8))
+            laeva_asukoht_ytelg = choice('ABCDEFGHIJ')
+            for y in range(2):
+                kordinaadid += laeva_asukoht_ytelg + str(int(laeva_asukoht_xtelg + y)) + ' '
+            konverter(kordinaadid, vastaslaud)
+            while True:
+                if konverter(kordinaadid, vastaslaud) == 'konverditud':
+                    break
+                else:
+                    konverter(kordinaadid, vastaslaud)
+        else:
+            kordinaadid = ''
+            laeva_asukoht_xtelg = str(randint(0,10))
+            laeva_asukoht_ytelg = choice('ABCDEFGHIJ')
+            for y in range(1):
+                kordinaadid += laeva_asukoht_ytelg + str(int(laeva_asukoht_xtelg + y)) + ' '
+            konverter(kordinaadid, vastaslaud)
+            while True:
+                if konverter(kordinaadid, vastaslaud) == 'konverditud':
+                    break
+                else:
+                    konverter(kordinaadid, vastaslaud)
+        x -= 1
 
-        x-=1
 
         
             
@@ -215,8 +199,9 @@ while tosi:
     elif kusimus == 'Y' or kusimus == 'y':
         prindi_laud()
         tosi = False
+        laevad_lauale()
+        muudetud_laud(kasutaja_laud)
     else:
         print('Ei saanud sisestusest aru, palun proovi uuesti.')
-
 
 
