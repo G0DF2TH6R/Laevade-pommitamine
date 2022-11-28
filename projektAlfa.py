@@ -1,6 +1,10 @@
+from random import *
+
 laud = ''
 global tagasi3
 tagasi3 = []
+vastaslaud = [['----------'],['----------'],['----------'],['----------'],['----------'],
+['----------'],['----------'],['----------'],['----------'],['----------']]
 
 def kasutaja_laud(lauad):
 
@@ -46,6 +50,9 @@ def kasutaja_laud(lauad):
 
 
 
+
+
+
 def algne_laud(laud):
     global päis
     päis = '    0 1 2 3 4 5 6 7 8 9\n  +---------------------+\n'
@@ -71,6 +78,7 @@ def prindi_laud():
     mangija_laud = algne_laud(laud)
     print(mangija_laud)
     print('\n ARVUTI LAUD')
+    global arvuti_laud
     arvuti_laud = algne_laud(laud)
     print(arvuti_laud)
     global lauad
@@ -169,7 +177,32 @@ def muudetud_laud():
     uus_alus = ' ' + alus.strip()
     print(uus_alus)
     
+def ai_laud(laud2):
+    x = 10
+    while x > 0:
+        if x > 9:
+            y = 4
+            laeva_asukoht_xtelg = str(randint(0,6))
+            laeva_asukoht_ytelg = choice('ABCDEF')
+            while y > 0:
+                y_telg = int(ord(laeva_asukoht_ytelg)) - 65 + y
+                x_telg = laeva_asukoht_xtelg
+                vastaslaud[y_telg][x_telg] = 'L'
+                y -= 1
+        elif x > 7:
+            y= 3
+            laeva_asukoht_xtelg = str(randint(0,7))
+            laeva_asukoht_ytelg = choice('ABCDEFGH')
+            while y > 0:
+                y_telg = int(ord(laeva_asukoht_ytelg)) + y
+                x_telg = laeva_asukoht_xtelg + y
+                if vastaslaud[y_telg][x_telg] == 'L':
+                    y += 
+                y -= 1
 
+        x-=1
+
+        
             
 
 tosi = True
@@ -184,4 +217,6 @@ while tosi:
         tosi = False
     else:
         print('Ei saanud sisestusest aru, palun proovi uuesti.')
+
+
 
