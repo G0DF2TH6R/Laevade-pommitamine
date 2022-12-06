@@ -15,13 +15,14 @@ kasutaja_laud = [['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-',
 
 
 
-
+#tehakse tühi laud
 def algne_laud():
     global päis
     päis = '    0 1 2 3 4 5 6 7 8 9\n  +---------------------+\n'
     number = 0
     laud = ''
     
+    #paneb tähed vasakule paika
     for x in range(10):
         laud += chr(65 + number) + ' |' + 10 * ' -' + ' |' +'\n'
         number += 1
@@ -66,20 +67,26 @@ def laevad_lauale():
 
 
     
-
+#Küsib laeva koordinaate, kontrollib neid ja paneb kasutaja lauale
 def laevad(laev, laevade_arv, laeva_pikkus):
     t = True
     for x in range(0, laevade_arv):
         kordinaadid = input('Sisesta ' + str(x+1) +'. ' + str(laeva_pikkus) + '-kohalise laeva kordinaadid: ').upper()
+        #hakkab kontrollima, kas oli õigesti sisestatud järjendi abil
         pikkus = kordinaadid.split()
         for y in pikkus:
+            #igal järjendi elemendil y (nt A1) peab olema pikkus 2
             if len(y) != 2:
                 t = False
+                #viib järgmisesse while True tsüklisse
                 break
             elif y[0].isalpha() == False or y[1].isnumeric () == False:
                 t = False
                 break
+            
+        #kontrollitakse veel sisestatu õigsust
         while True:
+            #vaadatakse antud sõne pikkust
             if len(pikkus) != laeva_pikkus:
                 print('Sisestus ebatäpne, proovi uuesti.')  
                 kordinaadid = input('Sisesta ' + str(x+1) +'. ' + str(laeva_pikkus) + '-kohalise laeva kordinaadid: ').upper()
@@ -89,6 +96,8 @@ def laevad(laev, laevade_arv, laeva_pikkus):
                     if len(y) != 2:
                         t = False
                         break
+                    
+            #kui kusagil muutus t Falseiks vale sisestuse tõttu, siis küsitakse uuesti sisestust
             elif t == False:
                 print('Sisestus ebatäpne, proovi uuesti.')  
                 kordinaadid = input('Sisesta ' + str(x+1) +'. ' + str(laeva_pikkus) + '-kohalise laeva kordinaadid: ').upper()
@@ -98,6 +107,8 @@ def laevad(laev, laevade_arv, laeva_pikkus):
                     if len(y) != 2:
                         t = False
                         break
+                    
+            #minnakse laevu laua peale panema + selle kontroll
             elif konverter(kordinaadid, kasutaja_laud) == 'koht on juba võetud':
                 print('Koht on juba võetud')
                 kordinaadid = input('Sisesta ' + str(x+1) +'. ' + str(laeva_pikkus) + '-kohalise laeva kordinaadid: ').upper()
@@ -108,13 +119,15 @@ def laevad(laev, laevade_arv, laeva_pikkus):
                         t = False
                         break
             else:
+                #paneb laevad4k järjendisse A2 jne listi
                 laev.append(kordinaadid)
-                break  
+                break
+        
         print(muudetud_laud(kasutaja_laud))
   
 
 #paneb nt A2 A3 jms järgi laeva lauale
-def konverter(muudetav, muudetav_laud): #muudetav on nt A2 A3
+def konverter(muudetav, muudetav_laud, muudetav_laud): #muudetav on nt A2 A3
     lst = muudetav.split(' ')
     for koordinaat in lst:      
         x_telg = int(ord(koordinaat[0])) - 65 #teeb tähe numbriks
@@ -122,14 +135,17 @@ def konverter(muudetav, muudetav_laud): #muudetav on nt A2 A3
         if muudetav_laud[x_telg][y_telg] == 'L':
             return "koht on juba võetud"
     for koordinaat in lst:      
-        x_telg = int(ord(koordinaat[0])) - 65
+        x_telg = int(ord(koordinaat[0])) - 65 
         y_telg = int(koordinaat[1])
+        #leiab koordinaadi asukoha laual ja paneb sinna laeva
         muudetav_laud[x_telg][y_telg] = 'L'
         
     return "konverditud"
         
-    
+# võtab kasutaja_laua, millel on nüüd mingikohalised laevad
+# pannakse kokku valmis laud
 def muudetud_laud(laud):
+    # g abil saab tähed kokku panna
     g = 0
     print(päis.strip('\n'))
     for rida in laud:
@@ -201,7 +217,11 @@ while tosi:
         tosi = False
         laevad_lauale()
         muudetud_laud(kasutaja_laud)
+        laevad_lauale()
+        muudetud_laud(kasutaja_laud)
     else:
         print('Ei saanud sisestusest aru, palun proovi uuesti.')
+
+
 
 
