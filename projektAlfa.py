@@ -1,5 +1,6 @@
 from random import *
 
+#alguses pole laevu kummalgi laual
 vastaslaud = [['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-'],
 ['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-'],
 ['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-'],
@@ -64,9 +65,6 @@ def laevad_lauale():
         konverter(x, kasutaja_laud)
 
 
-
-
-    
 #Küsib laeva koordinaate, kontrollib neid ja paneb kasutaja lauale
 def laevad(laev, laevade_arv, laeva_pikkus):
     t = True
@@ -128,22 +126,23 @@ def laevad(laev, laevade_arv, laeva_pikkus):
 
 #paneb nt A2 A3 jms järgi laeva lauale
 def konverter(muudetav, muudetav_laud): #muudetav on nt A2 A3
-    lst = muudetav.split(' ')
+    lst = muudetav.strip().split(' ')
     for koordinaat in lst:      
         x_telg = int(ord(koordinaat[0])) - 65 #teeb tähe numbriks
         y_telg = int(koordinaat[1])
         if muudetav_laud[x_telg][y_telg] == 'L':
             return "koht on juba võetud"
     for koordinaat in lst:      
-        x_telg = int(ord(koordinaat[0])) - 65 
-        y_telg = int(koordinaat[1])
+        x_telg = int(ord(koordinaat[0])) - 65 #mitmes järjend kasutaja_lauas
+        y_telg = int(koordinaat[1]) 
+        
         #leiab koordinaadi asukoha laual ja paneb sinna laeva
+        #y-telg näitab mitmes kriips reas
         muudetav_laud[x_telg][y_telg] = 'L'
         
     return "konverditud"
         
-# võtab kasutaja_laua, millel on nüüd mingikohalised laevad
-# pannakse kokku valmis laud
+#paneb juurde uuele kasutaja_lauale päise ja aluse ning joondab õigesti
 def muudetud_laud(laud):
     # g abil saab tähed kokku panna
     g = 0
@@ -154,56 +153,55 @@ def muudetud_laud(laud):
     uus_alus = '  ' + alus.strip()
     print(uus_alus)
     
-def ai_laud():
+def arvuti_laud():
     x = 10
     while x > 0:
+        #teeb ühe neljakohalise
         if x > 9:
             kordinaadid = ''
-            laeva_asukoht_xtelg = str(randint(0,6))
+            laeva_asukoht_xtelg = str(randint(0,5)) #6ni, sest 6+4 > 9
             laeva_asukoht_ytelg = choice('ABCDEFGHIJ')
             for y in range(4):
-                kordinaadid += laeva_asukoht_ytelg + str(int(laeva_asukoht_xtelg + y)) + ' '
+                kordinaadid += laeva_asukoht_ytelg + str((int(laeva_asukoht_xtelg) + y)) + ' '
             konverter(kordinaadid, vastaslaud)
+        #siia jõutakse 2 korda, seega tehakse kaks 3-kohalist
         elif x > 7:
-            kordinaadid = ''
-            laeva_asukoht_xtelg = str(randint(0,7))
-            laeva_asukoht_ytelg = choice('ABCDEFGHIJ')
-            for y in range(3):
-                kordinaadid += laeva_asukoht_ytelg + str(int(laeva_asukoht_xtelg + y)) + ' '
             while True:
-                if konverter(kordinaadid, vastaslaud) == 'konverditud':
+                kordinaadid = ""
+                laeva_asukoht_xtelg = str(randint(0,6))
+                laeva_asukoht_ytelg = choice('ABCDEFGHIJ')
+                for y in range(3):
+                    kordinaadid += laeva_asukoht_ytelg + str((int(laeva_asukoht_xtelg) + y)) + ' '
+                if konverter(kordinaadid, vastaslaud) == "konverditud":
                     break
-                else:
-                    konverter(kordinaadid, vastaslaud)
+
         elif x > 4:
-            kordinaadid = ''
-            laeva_asukoht_xtelg = str(randint(0,8))
-            laeva_asukoht_ytelg = choice('ABCDEFGHIJ')
-            for y in range(2):
-                kordinaadid += laeva_asukoht_ytelg + str(int(laeva_asukoht_xtelg + y)) + ' '
-            konverter(kordinaadid, vastaslaud)
             while True:
-                if konverter(kordinaadid, vastaslaud) == 'konverditud':
+                kordinaadid = ""
+                laeva_asukoht_xtelg = str(randint(0,7))
+                laeva_asukoht_ytelg = choice('ABCDEFGHIJ')
+                for y in range(2):
+                    kordinaadid += laeva_asukoht_ytelg + str((int(laeva_asukoht_xtelg) + y)) + ' '
+                if konverter(kordinaadid, vastaslaud) == "konverditud":
                     break
-                else:
-                    konverter(kordinaadid, vastaslaud)
+                
+        # ühelisi tehakse x=4st kuni x=1ni (4 korda)
         else:
-            kordinaadid = ''
-            laeva_asukoht_xtelg = str(randint(0,10))
-            laeva_asukoht_ytelg = choice('ABCDEFGHIJ')
-            for y in range(1):
-                kordinaadid += laeva_asukoht_ytelg + str(int(laeva_asukoht_xtelg + y)) + ' '
-            konverter(kordinaadid, vastaslaud)
             while True:
-                if konverter(kordinaadid, vastaslaud) == 'konverditud':
+                kordinaadid = ""
+                laeva_asukoht_xtelg = str(randint(0,9))
+                laeva_asukoht_ytelg = choice('ABCDEFGHIJ')
+                for y in range(1):
+                    kordinaadid += laeva_asukoht_ytelg + str((int(laeva_asukoht_xtelg) + y)) + ' '
+                if konverter(kordinaadid, vastaslaud) == "konverditud":
+                    toene = False
                     break
-                else:
-                    konverter(kordinaadid, vastaslaud)
+                        
         x -= 1
-
-
         
-            
+    return muudetud_laud(vastaslaud)
+
+    
 
 tosi = True
 while tosi:
@@ -217,6 +215,8 @@ while tosi:
         tosi = False
         laevad_lauale()
         muudetud_laud(kasutaja_laud)
+        print("Arvuti genereeritud laud:")
+        print(arvuti_laud())
     else:
         print('Ei saanud sisestusest aru, palun proovi uuesti.')
 
