@@ -127,7 +127,7 @@ def laevad(laev, laevade_arv, laeva_pikkus):
   
 
 #paneb nt A2 A3 jms järgi laeva lauale
-def konverter(muudetav, muudetav_laud, muudetav_laud): #muudetav on nt A2 A3
+def konverter(muudetav, muudetav_laud): #muudetav on nt A2 A3
     lst = muudetav.split(' ')
     for koordinaat in lst:      
         x_telg = int(ord(koordinaat[0])) - 65 #teeb tähe numbriks
@@ -153,7 +153,7 @@ def muudetud_laud(laud):
         g += 1
     uus_alus = '  ' + alus.strip()
     print(uus_alus)
-    
+
 def ai_laud():
     x = 10
     while x > 0:
