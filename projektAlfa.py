@@ -148,8 +148,6 @@ def laevad(laev, laevade_arv, laeva_pikkus):
                 lisada_kasutaja_mappi(
                     kordinaadid, kasutaja_laeva_indeks, laeva_pikkus)
                 kasutaja_laeva_indeks += 1
-                # print(kasutaja_mapp)  # Lisatud testiks
-                # print(kasutaja_laev)  # Lisatud testiks
                 break
 
         print(muudetud_laud(kasutaja_laud))
@@ -381,7 +379,7 @@ def arvuti_tuld():
     global arvuti_tuli
     arvuti_tuli = ""
     while True:
-        x = choice('ABCD')
+        x = choice('ABCDEFGHIJ')
         y = str(randint(0, 9))
         arvuti_tuli = x + y
         # vetoSetis on koordinaadid, mida on juba kasutatud
